@@ -185,5 +185,6 @@ Les propositions sont bienvenues (tickets, pull requests). Quelques règles du p
 - compatible **Android 5.0 (API 21)** : pas d'API plus récente sans vérification de version ;
 - interface en français ;
 - `./build.sh` et `tests/run.sh` doivent passer.
+- projet réalisé a l'aide de Claude Opus 5.5
 
 L'historique des versions est dans [CHANGELOG.md](CHANGELOG.md).
