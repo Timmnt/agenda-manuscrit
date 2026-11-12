@@ -1,190 +1,193 @@
 # Agenda manuscrit
 
-**Un agenda pour tablette Android qu'on remplit au stylet, comme un vrai carnet.**
-Une page par jour, deux pages côte à côte en paysage, des cases à cocher dessinées à la main,
-l'emploi du temps et Google Agenda en haut de chaque page, un widget pour le lendemain.
-Sans compte, sans pub, sans connexion internet.
+[Français](README.fr.md) · **English**
 
-![Une page du jour et une page « En vrac »](docs/apercu.png)
+**A handwritten planner for Android tablets, filled in with a stylus like a real paper notebook.**
+One page per day, two pages side by side in landscape, check boxes drawn by hand, your timetable and
+Google Calendar at the top of each page, and a widget showing tomorrow.
+No account, no ads, no internet connection.
+
+> The app's interface is in French.
+
+![A day page and an "En vrac" (scratch) page](docs/apercu.png)
 
 ---
 
-## Sommaire
+## Contents
 
-- [Fonctionnalités](#fonctionnalités)
-- [Installer](#installer)
-- [Compiler](#compiler)
+- [Features](#features)
+- [Install](#install)
+- [Build](#build)
 - [Tests](#tests)
-- [Comment c'est fait](#comment-cest-fait)
-- [Confidentialité](#confidentialité)
-- [Contribuer](#contribuer)
+- [How it works](#how-it-works)
+- [Privacy](#privacy)
+- [Contributing](#contributing)
 
 ---
 
-## Fonctionnalités
+## Features
 
-### Écrire
-- **Encre au stylet** avec pression, 4 couleurs (réglables : appui long sur une couleur), 3 épaisseurs, surligneur, gomme.
-- **Écriture au doigt** en option ; la paume posée sur l'écran est ignorée.
-- **Lasso** : entourer pour déplacer, agrandir, recolorer, copier/coller, supprimer.
-- **Annuler / rétablir**, y compris d'une page à l'autre.
-- **Zoom** à deux doigts, **page qui s'allonge** quand on écrit en bas.
-- **Bouton du stylet** réglable : gomme, surligneur, lasso, annuler ou rien.
+### Writing
+- **Stylus ink** with pressure, 4 colours (customisable: long-press a colour), 3 widths, highlighter, eraser.
+- **Finger writing** as an option; a palm resting on the screen is ignored.
+- **Lasso**: circle things to move, resize, recolour, copy/paste or delete them.
+- **Undo / redo**, even across pages.
+- Two-finger **zoom**; the **page grows** when you write near the bottom.
+- Configurable **stylus button**: eraser, highlighter, lasso, undo or nothing.
 
-### Organiser
-- **Un jour par page** (deux en paysage), ouverture toujours sur aujourd'hui, **page qui tourne** (désactivable).
-- **Vue Semaine** avec miniatures, **calendrier** avec un point sur les jours où il y a quelque chose d'écrit.
-- **« En vrac »** : un carnet à part, sans dates, pour les idées et le brouillon.
-- **Reporter** une sélection au lendemain, à une date ou dans « En vrac ».
-- **Fonds de page** : ligné, Seyès, petits carreaux, pointillés, blanc.
-- **Statistiques** : série de jours où tout est coché, record, graphique du mois.
+### Organising
+- **One day per page** (two in landscape), always opens on today, **page-turn animation** (can be turned off).
+- **Week view** with thumbnails; a **calendar** with a dot under the days where something is written.
+- **"En vrac"**: a separate, undated notebook for ideas and rough notes.
+- **Move** a selection to tomorrow, to any date, or to "En vrac".
+- **Page backgrounds**: lined, Seyès (French ruled), small squares, dots, blank.
+- **Statistics**: streak of days with everything checked, record, monthly chart.
 
-### Cases à cocher
-Un carré dessiné devient une case, toujours à la même taille. Il peut être penché, en trapèze, mal
-fermé, avec une petite boucle aux coins, ou fait en 2 à 4 traits. Un appui coche la case, une coche
-dessinée dedans aussi.
+### Check boxes
+A square you draw becomes a check box, always at the same size. It can be tilted, trapezoid-shaped,
+not quite closed, have small loops at the corners, or be drawn in 2 to 4 strokes. Tap it to check it,
+or draw a tick inside.
 
-![Ce qui devient une case, et ce qui reste un dessin](docs/cases-a-cocher.png)
+![What becomes a check box, and what stays a drawing](docs/cases-a-cocher.png)
 
-### Emploi du temps et Google Agenda
-- **Emploi du temps** de la semaine (matière, heures, salle), affiché en pastilles en haut de chaque jour.
-- **Google Agenda** (optionnel) : les événements de l'agenda synchronisé sur la tablette s'ajoutent aux pastilles,
-  en lecture seule. Un événement dont le titre contient une matière en prend la couleur ; un doublon d'un cours
-  n'est pas affiché deux fois.
-- Tout est affiché en entier : quand une ligne est pleine, les pastilles passent à la ligne.
+### Timetable and Google Calendar
+- Weekly **timetable** (subject, times, room), shown as pills at the top of each day.
+- **Google Calendar** (optional): events from the calendar synced on the tablet are added to the pills,
+  read-only. An event whose title contains a subject takes that subject's colour; an event that duplicates
+  a class is shown only once.
+- Everything is shown in full: when a row is full, pills wrap to the next line.
 
-![Pastilles de l'emploi du temps sur plusieurs lignes](docs/emploi-du-temps.png)
+![Timetable pills on several rows](docs/emploi-du-temps.png)
 
-### Tampons, matières, autocollants
-- **Tampons** (DS, TP, EXAM, IMPORTANT…) : crée les tiens (texte, couleur, contour ou plein), modifie-les, supprime-les.
-- **Matières** en couleur : pastilles posées sur les pages, points dans les calendriers, couleurs de l'emploi du temps.
-- **Autocollants** : 8 dessins inclus, et autant d'emoji que tu veux.
+### Stamps, subjects, stickers
+- **Stamps** (DS, TP, EXAM, IMPORTANT…): create your own (text, colour, outline or filled), edit or delete them.
+- Colour-coded **subjects**: pills placed on pages, dots in the calendars, timetable colours.
+- **Stickers**: 8 built-in drawings, plus as many emoji as you like.
 
-![Tampons et autocollants personnalisés](docs/tampons-autocollants.png)
+![Custom stamps and stickers](docs/tampons-autocollants.png)
 
 ### Widget
-Un widget d'écran d'accueil montre **la page de demain** (pour voir ce qu'il reste à préparer). Il remplit
-tout son cadre, en portrait comme en paysage. Un appui ouvre l'agenda sur demain.
+A home-screen widget shows **tomorrow's page** (so you see what's left to prepare). It fills its whole frame,
+in portrait and landscape. Tapping it opens the planner on tomorrow.
 
-<img src="docs/widget.png" alt="Aperçu du widget" width="220">
-
----
-
-## Installer
-
-1. Télécharge `Agenda.apk` depuis la page **Releases**, ou compile-le (voir plus bas).
-2. Ouvre-le sur la tablette et autorise l'installation d'applis inconnues pour l'application qui l'ouvre.
-   Ou, depuis un ordinateur : `adb install -r Agenda.apk`.
-
-Configuration requise : Android 5.0 ou plus récent. L'appli est pensée pour une tablette avec stylet, mais elle
-marche au doigt (menu ⋮ → *Écrire aussi au doigt*).
-
-Pour Google Agenda : le compte Google doit être ajouté dans les paramètres d'Android avec la synchronisation
-« Agenda » activée, puis dans l'appli : menu ⋮ → *Emploi du temps & Google Agenda* → interrupteur.
-
-> Une mise à jour ne s'installe par-dessus l'ancienne version que si elle est signée avec la **même clé**.
-> Désinstaller l'appli efface les notes.
+<img src="docs/widget.png" alt="Widget preview" width="220">
 
 ---
 
-## Compiler
+## Install
 
-Le projet n'utilise ni Android Studio ni Gradle : un simple script enchaîne les outils du SDK.
+1. Download `Agenda.apk` from the **Releases** page, or build it yourself (see below).
+2. Open it on the tablet and allow installing unknown apps for the app that opens it.
+   Or, from a computer: `adb install -r Agenda.apk`.
+
+Requirements: Android 5.0 or newer. The app is designed for a tablet with a stylus, but it works with a finger
+(menu ⋮ → *Écrire aussi au doigt*).
+
+For Google Calendar: the Google account must be added in Android's settings with "Calendar" sync turned on;
+then, in the app: menu ⋮ → *Emploi du temps & Google Agenda* → switch.
+
+> An update only installs over the previous version if it is signed with the **same key**.
+> Uninstalling the app deletes your notes.
+
+---
+
+## Build
+
+The project uses neither Android Studio nor Gradle: a plain script chains the SDK tools.
 
 ```bash
 # Debian / Ubuntu
 sudo apt install openjdk-21-jdk-headless android-sdk-platform-23 aapt dalvik-exchange zipalign apksigner
 
-./build.sh          # produit Agenda.apk
+./build.sh          # produces Agenda.apk
 ```
 
-Étapes de `build.sh` : `aapt` (ressources → `R.java`) → `javac` (Java 8) → `dx` (bytecode Dalvik, `classes.dex`)
+`build.sh` steps: `aapt` (resources → `R.java`) → `javac` (Java 8) → `dx` (Dalvik bytecode, `classes.dex`)
 → `aapt` (archive) → `zipalign` → `apksigner`.
 
-**Signature.** Sans configuration, une clé de développement est créée dans `debug.jks`. Pour signer avec ta propre
-clé, crée un fichier `keystore.properties` à la racine (il est ignoré par git) :
+**Signing.** With no configuration, a development key is created in `debug.jks`. To sign with your own key,
+create a `keystore.properties` file at the root (git ignores it):
 
 ```properties
-KEYSTORE=ma-cle.jks
-KEYSTORE_PASS=mot-de-passe
+KEYSTORE=my-key.jks
+KEYSTORE_PASS=password
 KEY_ALIAS=agenda
 ```
 
-ou passe les mêmes variables dans l'environnement. `ANDROID_JAR=…` permet de pointer vers un autre `android.jar`.
-Ne publie jamais ta clé (`*.jks`) : n'importe qui pourrait signer des « mises à jour » à ta place.
+or pass the same variables in the environment. `ANDROID_JAR=…` points to a different `android.jar`.
+Never publish your key (`*.jks`): anyone could sign "updates" in your name.
 
 ---
 
 ## Tests
 
-Les parties sans interface (modèle, fichiers, annulation, séries, Google Agenda, réglages, reconnaissance des
-carrés) se testent sur la JVM, avec des bouchons pour les quelques classes d'Android utilisées :
+The parts without UI (model, files, undo, streaks, Google Calendar, settings, square recognition) are tested
+on the JVM, with stubs for the few Android classes they use:
 
 ```bash
-tests/run.sh          # quelques secondes
-tests/run.sh 4000     # mesure fine de la reconnaissance des carrés (~1 min)
+tests/run.sh          # a few seconds
+tests/run.sh 4000     # fine-grained square-recognition benchmark (~1 min)
 ```
 
-La reconnaissance des carrés est mesurée sur des tracés simulés (`tests/src/.../Gen.java`) : carrés plus ou moins
-bâclés, en 1 à 4 traits, et formes qui ne doivent pas devenir des cases (ronds, ellipses, D, P, maisons, étoiles,
-lettres en plusieurs traits…). Résultats typiques : 99 % des carrés « un peu de travers », ~92 % des très bâclés,
-~98 % des carrés en plusieurs traits, aucun faux positif sur plus de 10 000 formes.
+Square recognition is measured on simulated strokes (`tests/src/.../Gen.java`): squares drawn more or less
+carelessly, in 1 to 4 strokes, and shapes that must not become check boxes (circles, ellipses, D, P, houses,
+stars, multi-stroke letters…). Typical results: 99 % of slightly crooked squares, ~92 % of very sloppy ones,
+~98 % of multi-stroke squares, and no false positives over more than 10,000 shapes.
 
 ---
 
-## Comment c'est fait
+## How it works
 
-Java « à l'ancienne » (pas de lambdas : l'outil `dx` ne les accepte pas), API Android directes, sans bibliothèque
-externe. Environ 10 000 lignes dans `src/fr/agenda/manuscrit/` :
+"Old-school" Java (no lambdas: the `dx` tool rejects them), direct Android APIs, no external library.
+About 10,000 lines in `src/fr/agenda/manuscrit/`:
 
-| Fichier | Rôle |
+| File | Role |
 |---|---|
-| `MainActivity` | barres d'outils, onglets Jour / Semaine / En vrac, menu, panneau Insérer, sélection |
-| `BookPager` | 1 ou 2 pages, glisser / pincer / défiler, animation de page qui tourne |
-| `InkPageView` | encre, gomme, lasso, cases, placement d'objets, zoom, bouton du stylet |
-| `PageRenderer` | papier, fonds, pastilles, traits, cases, tampons, matières, autocollants |
-| `Item` / `Stroke` / `Obj` | éléments immuables posés sur une page |
-| `Edit` / `Page` / `PageStore` | annuler / rétablir, lecture et écriture des fichiers, résumés par jour |
-| `Shapes` | reconnaissance des carrés (1 à 4 traits), lasso, hauteur de page |
-| `Settings` | réglages : fonds, stylet, matières, tampons, emoji, couleurs, emploi du temps, Google Agenda |
-| `CalendarSource` / `CalEvents` | lecture de l'agenda d'Android, fusion avec l'emploi du temps |
-| `WeekView` / `WeekStripView` / `CalendarDialog` | vue semaine, bande des jours, calendrier |
-| `ScheduleDialog` / `SubjectsDialog` / `StampsDialog` / `StatsDialog` / `Kit` | fenêtres de réglage et éléments d'interface |
-| `TodayWidget` | widget d'écran d'accueil (page de demain) |
+| `MainActivity` | toolbars, Day / Week / En vrac tabs, menu, Insert panel, selection |
+| `BookPager` | 1 or 2 pages, swipe / pinch / scroll, page-turn animation |
+| `InkPageView` | ink, eraser, lasso, check boxes, placing objects, zoom, stylus button |
+| `PageRenderer` | paper, backgrounds, pills, strokes, check boxes, stamps, subjects, stickers |
+| `Item` / `Stroke` / `Obj` | immutable items placed on a page |
+| `Edit` / `Page` / `PageStore` | undo / redo, reading and writing files, per-day summaries |
+| `Shapes` | square recognition (1 to 4 strokes), lasso, page height |
+| `Settings` | settings: backgrounds, stylus, subjects, stamps, emoji, colours, timetable, Google Calendar |
+| `CalendarSource` / `CalEvents` | reading Android's calendar, merging with the timetable |
+| `WeekView` / `WeekStripView` / `CalendarDialog` | week view, day strip, calendar |
+| `ScheduleDialog` / `SubjectsDialog` / `StampsDialog` / `StatsDialog` / `Kit` | settings windows and UI building blocks |
+| `TodayWidget` | home-screen widget (tomorrow's page) |
 
-**Données** (stockage interne de l'appli) :
-- `files/pages/AAAA-MM-JJ.ink` : un fichier par jour ; `files/vrac/0001.ink` : pages « En vrac ».
-- Format binaire v2 : en-tête (nombre de cases, cases cochées, matières du jour), puis traits (points x, y, pression)
-  et objets. Écriture dans un fichier temporaire puis renommage, pour ne jamais laisser de page à moitié écrite.
-- Réglages : `SharedPreferences` nommées `agenda`.
-- Les événements Google ne sont jamais copiés : ils sont relus depuis l'agenda d'Android.
+**Data** (app-private storage):
+- `files/pages/YYYY-MM-DD.ink`: one file per day; `files/vrac/0001.ink`: "En vrac" pages.
+- Binary format v2: header (number of boxes, checked boxes, subjects of the day), then strokes (x, y, pressure
+  points) and objects. Written to a temporary file then renamed, so a page is never left half-written.
+- Settings: `SharedPreferences` named `agenda`.
+- Google events are never copied: they are read again from Android's calendar.
 
-**Reconnaissance des carrés** (`Shapes.recognizeBox`) : le tracé est refermé (amorce et dépassement coupés),
-ré-échantillonné, puis on repère ses 4 virages les plus francs. Chaque côté est remplacé par une droite ajustée,
-les coins sont leurs intersections. Le carré est accepté si le quadrilatère obtenu est convexe, aux angles pas
-trop loin de 90°, si le tracé le suit de près et le remplit, si les coins sont nets et les côtés pas des arcs.
-Les seuils ont été réglés sur environ 230 000 tracés simulés.
+**Square recognition** (`Shapes.recognizeBox`): the stroke is closed (lead-in and overshoot trimmed), resampled,
+and its 4 sharpest turns are found. Each side is replaced by a fitted straight line; the corners are their
+intersections. The square is accepted if the resulting quadrilateral is convex with angles not too far from 90°,
+if the stroke follows it closely and fills it, and if the corners are crisp and the sides are not arcs.
+Thresholds were tuned on about 230,000 simulated strokes.
 
-Outils : `tools/icons.py` (icônes), `tools/widget_preview.py` (aperçu du widget).
-
----
-
-## Confidentialité
-
-- **Aucune autorisation internet** : l'appli ne peut rien envoyer nulle part.
-- Seule autorisation demandée : **lire l'agenda** (`READ_CALENDAR`), et seulement si tu actives Google Agenda.
-  Lecture seule.
-- Tout reste dans le stockage interne de l'appli, sur ta tablette.
+Tools: `tools/icons.py` (icons), `tools/widget_preview.py` (widget preview).
 
 ---
 
-## Contribuer
+## Privacy
 
-Les propositions sont bienvenues (tickets, pull requests). Quelques règles du projet :
-- syntaxe **Java 8 sans lambdas ni références de méthode** (contrainte de `dx`) ;
-- compatible **Android 5.0 (API 21)** : pas d'API plus récente sans vérification de version ;
-- interface en français ;
-- `./build.sh` et `tests/run.sh` doivent passer.
-- projet réalisé a l'aide de Claude Opus 5.5
+- **No internet permission**: the app cannot send anything anywhere.
+- The only permission requested is **reading the calendar** (`READ_CALENDAR`), and only if you turn on
+  Google Calendar. Read-only.
+- Everything stays in the app's private storage, on your tablet.
 
-L'historique des versions est dans [CHANGELOG.md](CHANGELOG.md).
+---
+
+## Contributing
+
+Suggestions are welcome (issues, pull requests). A few project rules:
+- **Java 8 syntax without lambdas or method references** (a `dx` constraint);
+- compatible with **Android 5.0 (API 21)**: no newer API without a version check;
+- the interface is in French;
+- `./build.sh` and `tests/run.sh` must pass.
+
+The version history is in [CHANGELOG.md](CHANGELOG.md) (in French).
