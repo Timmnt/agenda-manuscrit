@@ -1,0 +1,19 @@
+# Compilation
+build/
+*.apk
+*.idsig
+*.dex
+*.class
+
+# Clés de signature : ne jamais les publier
+*.jks
+*.keystore
+keystore.properties
+
+# Divers
+__pycache__/
+*.zip
+.idea/
+.vscode/
+*.iml
+.DS_Store
