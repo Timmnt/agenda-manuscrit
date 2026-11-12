@@ -62,6 +62,10 @@ Un carré dessiné devient une case, toujours à la même taille. Il peut être 
 
 ![Tampons et autocollants personnalisés](docs/tampons-autocollants.png)
 
+### Langue
+Français ou anglais, au choix à tout moment : menu ⋮ → *Langue · Language* (Automatique, Français, English).
+Dates, heures (8h / 8:00), menus, aide et tampons par défaut suivent la langue choisie.
+
 ### Widget
 
 Un widget d'écran d'accueil montre **la page de demain** (pour voir ce qu'il reste à préparer). Il remplit tout son cadre, en portrait comme en paysage. Un appui ouvre l'agenda sur demain.

@@ -64,6 +64,10 @@ A square you draw becomes a check box, always at the same size. It can be tilted
 
 ![Custom stamps and stickers](docs/tampons-autocollants.png)
 
+### Language
+English or French, switchable at any time from menu ⋮ → *Langue · Language* (Automatic, Français, English).
+Dates, times (8:00 / 8h), menus, help and default stamps all follow the chosen language.
+
 ### Widget
 
 A home-screen widget shows **tomorrow's page** (so you see what's left to prepare). It fills its whole frame, in portrait and landscape. Tapping it opens the planner on tomorrow.
