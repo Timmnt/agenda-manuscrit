@@ -116,7 +116,7 @@ final class CalEvents {
         long a = Math.max(from, in.startDay);
         long b = Math.min(to, Math.min(in.endDay, in.startDay + MAX_SPAN));
         if (in.title.isEmpty() && in.location.isEmpty()) return;
-        String title = in.title.isEmpty() ? "(Sans titre)" : in.title;
+        String title = in.title.isEmpty() ? L.s("(Sans titre)", "(No title)") : in.title;
         for (long d = a; d <= b; d++) {
             DayEv e;
             if (in.allDay) {

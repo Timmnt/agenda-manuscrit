@@ -35,31 +35,31 @@ final class StampsDialog {
         final PageRenderer factory = new PageRenderer();
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, "Tampons et autocollants"));
-        TextView hint = Kit.text(c, "Ils apparaissent dans le panneau Insérer. Ce qui est déjà posé sur tes pages ne change pas.",
+        body.addView(Kit.title(c, L.s("Tampons et autocollants", "Stamps and stickers")));
+        TextView hint = Kit.text(c, L.s("Ils apparaissent dans le panneau Insérer. Ce qui est déjà posé sur tes pages ne change pas.", "They appear in the Insert panel. Whatever is already on your pages doesn't change."),
                 14, Ui.GREY, false);
         hint.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 6));
         body.addView(hint);
 
-        body.addView(header(c, "Tampons"));
+        body.addView(header(c, L.s("Tampons", "Stamps")));
         final LinearLayout list = new LinearLayout(c);
         list.setOrientation(LinearLayout.VERTICAL);
         body.addView(list);
-        TextView addStamp = Kit.button(c, "+ Nouveau tampon", true);
+        TextView addStamp = Kit.button(c, L.s("+ Nouveau tampon", "+ New stamp"), true);
         addStamp.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
         addStamp.setPadding(Kit.px(c, 22), Kit.px(c, 12), Kit.px(c, 22), Kit.px(c, 12));
         body.addView(addStamp, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        body.addView(header(c, "Autocollants emoji"));
-        TextView eh = Kit.text(c, "Touche un emoji pour le retirer.", 13, Ui.LIGHT_GREY, false);
+        body.addView(header(c, L.s("Autocollants emoji", "Emoji stickers")));
+        TextView eh = Kit.text(c, L.s("Touche un emoji pour le retirer.", "Tap an emoji to remove it."), 13, Ui.LIGHT_GREY, false);
         eh.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 8));
         body.addView(eh);
         final Kit.Flow emojis = new Kit.Flow(c, Kit.px(c, 8), Kit.px(c, 8));
         emojis.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 12));
         body.addView(emojis);
 
-        TextView reset = Kit.button(c, "Par défaut", false);
-        TextView close = Kit.button(c, "Fermer", true);
+        TextView reset = Kit.button(c, L.s("Par défaut", "Defaults"), false);
+        TextView close = Kit.button(c, L.s("Fermer", "Close"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, reset, close), 460);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +91,7 @@ final class StampsDialog {
                     pv.setClickable(false);
                     row.addView(pv);
                     row.addView(new View(c), new LinearLayout.LayoutParams(0, 1, 1f));
-                    row.addView(Kit.text(c, "Modifier", 14, Ui.GREY, false));
+                    row.addView(Kit.text(c, L.s("Modifier", "Edit"), 14, Ui.GREY, false));
                     row.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -101,14 +101,14 @@ final class StampsDialog {
                     list.addView(row);
                 }
                 if (Settings.stamps.isEmpty()) {
-                    TextView none = Kit.text(c, "Aucun tampon.", 14, Ui.LIGHT_GREY, false);
+                    TextView none = Kit.text(c, L.s("Aucun tampon.", "No stamps."), 14, Ui.LIGHT_GREY, false);
                     none.setPadding(Kit.px(c, 22), Kit.px(c, 4), Kit.px(c, 22), Kit.px(c, 4));
                     list.addView(none);
                 }
                 emojis.removeAllViews();
                 for (final String e : Settings.emojis) {
                     Kit.ObjPreview pv = new Kit.ObjPreview(c, factory, PageRenderer.makeEmojiSticker(e), 56, 56);
-                    pv.setContentDescription("Retirer l'autocollant " + e);
+                    pv.setContentDescription(L.s("Retirer l'autocollant ", "Remove sticker ") + e);
                     pv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -117,7 +117,7 @@ final class StampsDialog {
                     });
                     emojis.addView(pv);
                 }
-                TextView add = Kit.pill(c, "+ Ajouter un emoji", false);
+                TextView add = Kit.pill(c, L.s("+ Ajouter un emoji", "+ Add an emoji"), false);
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -137,10 +137,10 @@ final class StampsDialog {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(c)
-                        .setTitle("Revenir aux tampons et autocollants d'origine ?")
-                        .setMessage("Tes tampons et emoji ajoutés seront retirés du panneau Insérer (ceux déjà posés sur les pages restent).")
-                        .setNegativeButton("Annuler", null)
-                        .setPositiveButton("Rétablir", new DialogInterface.OnClickListener() {
+                        .setTitle(L.s("Revenir aux tampons et autocollants d'origine ?", "Go back to the original stamps and stickers?"))
+                        .setMessage(L.s("Tes tampons et emoji ajoutés seront retirés du panneau Insérer (ceux déjà posés sur les pages restent).", "Your added stamps and emoji will be removed from the Insert panel (those already on your pages stay)."))
+                        .setNegativeButton(L.s("Annuler", "Cancel"), null)
+                        .setPositiveButton(L.s("Rétablir", "Restore"), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface di, int which) {
                                 Settings.setStamps(Settings.defaultStamps());
@@ -166,7 +166,7 @@ final class StampsDialog {
         final PageRenderer factory = new PageRenderer();
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, st == null ? "Nouveau tampon" : "Modifier le tampon"));
+        body.addView(Kit.title(c, st == null ? L.s("Nouveau tampon", "New stamp") : L.s("Modifier le tampon", "Edit stamp")));
 
         final int[] color = {st != null ? st.color : Settings.PALETTE[(Settings.stamps.size() * 5 + 7) % Settings.PALETTE.length]};
         final boolean[] filled = {st != null && st.filled};
@@ -180,11 +180,11 @@ final class StampsDialog {
             @Override
             public void run() {
                 String t = label[0].trim();
-                preview.set(new Settings.Stamp(0, t.isEmpty() ? "TEXTE" : t, color[0], filled[0]));
+                preview.set(new Settings.Stamp(0, t.isEmpty() ? L.s("TEXTE", "TEXT") : t, color[0], filled[0]));
             }
         };
 
-        final EditText name = Kit.field(c, label[0], "Texte (ex. TP NOTÉ, À REVOIR, ORAL)");
+        final EditText name = Kit.field(c, label[0], L.s("Texte (ex. TP NOTÉ, À REVOIR, ORAL)", "Text (e.g. QUIZ, REVIEW, ORAL)"));
         name.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_STAMP_CHARS)});
         name.addTextChangedListener(new TextWatcher() {
@@ -206,7 +206,7 @@ final class StampsDialog {
         nlp.setMargins(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 12));
         body.addView(name, nlp);
 
-        TextView sl = Kit.text(c, "Style", 14, Ui.GREY, true);
+        TextView sl = Kit.text(c, L.s("Style", "Style"), 14, Ui.GREY, true);
         sl.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 8));
         body.addView(sl);
         LinearLayout styles = new LinearLayout(c);
@@ -228,7 +228,7 @@ final class StampsDialog {
             public void run() {
                 // deux pastilles « Contour » / « Plein », la choisie en plein
                 stylesRow.removeAllViews();
-                TextView outline = Kit.pill(c, "Contour", !filled[0]), plain = Kit.pill(c, "Plein", filled[0]);
+                TextView outline = Kit.pill(c, L.s("Contour", "Outline"), !filled[0]), plain = Kit.pill(c, L.s("Plein", "Filled"), filled[0]);
                 outline.setTag(Boolean.FALSE);
                 plain.setTag(Boolean.TRUE);
                 outline.setOnClickListener(styleClick);
@@ -241,7 +241,7 @@ final class StampsDialog {
         };
         drawStyles[0].run();
 
-        TextView cl = Kit.text(c, "Couleur", 14, Ui.GREY, true);
+        TextView cl = Kit.text(c, L.s("Couleur", "Colour"), 14, Ui.GREY, true);
         cl.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 8));
         body.addView(cl);
         Kit.Flow pal = new Kit.Flow(c, Kit.px(c, 10), Kit.px(c, 10));
@@ -265,10 +265,10 @@ final class StampsDialog {
 
         refresh.run();
 
-        TextView del = st == null ? null : Kit.button(c, "Supprimer", false);
+        TextView del = st == null ? null : Kit.button(c, L.s("Supprimer", "Delete"), false);
         if (del != null) del.setTextColor(Ui.DANGER);
-        TextView cancel = Kit.button(c, "Annuler", false);
-        TextView ok = Kit.button(c, "Enregistrer", true);
+        TextView cancel = Kit.button(c, L.s("Annuler", "Cancel"), false);
+        TextView ok = Kit.button(c, L.s("Enregistrer", "Save"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, del, cancel, ok), 440);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,10 +281,10 @@ final class StampsDialog {
             public void onClick(View v) {
                 String t = label[0].replace('\t', ' ').replace('\n', ' ').trim();
                 if (t.isEmpty()) {
-                    Toast.makeText(c, "Écris le texte du tampon.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, L.s("Écris le texte du tampon.", "Type the stamp's text."), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                t = t.toUpperCase(Locale.FRANCE);
+                t = t.toUpperCase(L.locale());
                 ArrayList<Settings.Stamp> l = new ArrayList<>(Settings.stamps);
                 if (st == null) {
                     l.add(new Settings.Stamp(Settings.nextStampId(), t, color[0], filled[0]));
@@ -303,10 +303,10 @@ final class StampsDialog {
                 @Override
                 public void onClick(View v) {
                     new AlertDialog.Builder(c)
-                            .setTitle("Supprimer le tampon « " + st.text + " » ?")
-                            .setMessage("Il disparaît du panneau Insérer ; ceux déjà posés sur tes pages restent.")
-                            .setNegativeButton("Garder", null)
-                            .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                            .setTitle(L.f("Supprimer le tampon « %s » ?", "Delete the “%s” stamp?", st.text))
+                            .setMessage(L.s("Il disparaît du panneau Insérer ; ceux déjà posés sur tes pages restent.", "It disappears from the Insert panel; the ones already on your pages stay."))
+                            .setNegativeButton(L.s("Garder", "Keep"), null)
+                            .setPositiveButton(L.s("Supprimer", "Delete"), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface di, int which) {
                                     ArrayList<Settings.Stamp> l = new ArrayList<>();
@@ -327,19 +327,19 @@ final class StampsDialog {
     static void addEmoji(final Context c, final Runnable added) {
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, "Nouvel autocollant"));
-        TextView hint = Kit.text(c, "Tape un emoji avec le clavier (touche 😊), ou un ou deux caractères (★, ✓, ?!).",
+        body.addView(Kit.title(c, L.s("Nouvel autocollant", "New sticker")));
+        TextView hint = Kit.text(c, L.s("Tape un emoji avec le clavier (touche 😊), ou un ou deux caractères (★, ✓, ?!).", "Type an emoji with the keyboard (😊 key), or one or two characters (★, ✓, ?!)."),
                 14, Ui.GREY, false);
         hint.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 10));
         body.addView(hint);
-        final EditText field = Kit.field(c, "", "Emoji");
+        final EditText field = Kit.field(c, "", L.s("Emoji", "Emoji"));
         field.setTextSize(28);
         field.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 14));
         body.addView(field, lp);
-        TextView cancel = Kit.button(c, "Annuler", false);
-        TextView ok = Kit.button(c, "Ajouter", true);
+        TextView cancel = Kit.button(c, L.s("Annuler", "Cancel"), false);
+        TextView ok = Kit.button(c, L.s("Ajouter", "Add"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, null, cancel, ok), 400);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,11 +352,11 @@ final class StampsDialog {
             public void onClick(View v) {
                 String e = field.getText().toString().replace('\t', ' ').replace('\n', ' ').trim();
                 if (e.isEmpty()) {
-                    Toast.makeText(c, "Tape un emoji.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, L.s("Tape un emoji.", "Type an emoji."), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (e.codePointCount(0, e.length()) > MAX_EMOJI_CODEPOINTS) {
-                    Toast.makeText(c, "C'est un peu long pour un autocollant : un emoji ou deux caractères suffisent.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, L.s("C'est un peu long pour un autocollant : un emoji ou deux caractères suffisent.", "That's a bit long for a sticker: one emoji or two characters is enough."), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ArrayList<String> l = new ArrayList<>(Settings.emojis);
@@ -372,10 +372,10 @@ final class StampsDialog {
 
     static void removeEmoji(final Context c, final String e, final Runnable done) {
         new AlertDialog.Builder(c)
-                .setTitle("Retirer l'autocollant " + e + " ?")
-                .setMessage("Il disparaît du panneau Insérer ; ceux déjà posés sur tes pages restent.")
-                .setNegativeButton("Garder", null)
-                .setPositiveButton("Retirer", new DialogInterface.OnClickListener() {
+                .setTitle(L.f("Retirer l'autocollant %s ?", "Remove the %s sticker?", e))
+                .setMessage(L.s("Il disparaît du panneau Insérer ; ceux déjà posés sur tes pages restent.", "It disappears from the Insert panel; the ones already on your pages stay."))
+                .setNegativeButton(L.s("Garder", "Keep"), null)
+                .setPositiveButton(L.s("Retirer", "Remove"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface di, int which) {
                         ArrayList<String> l = new ArrayList<>(Settings.emojis);

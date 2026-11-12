@@ -517,7 +517,7 @@ final class InkPageView extends View {
     }
 
     private String pillLabel() {
-        return Math.round(scale / fit * 100) + " %";
+        return Math.round(scale / fit * 100) + L.s(" %", "%");
     }
 
     private void pillRect(RectF out) {

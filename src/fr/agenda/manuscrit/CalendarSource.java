@@ -45,7 +45,7 @@ final class CalendarSource {
 
         Cal(long id, String name, String account, String owner, int color, boolean visible, boolean synced) {
             this.id = id;
-            this.name = name == null || name.trim().isEmpty() ? "Agenda" : name.trim();
+            this.name = name == null || name.trim().isEmpty() ? L.s("Agenda", "Calendar") : name.trim();
             this.account = account == null ? "" : account;
             this.owner = owner == null ? "" : owner;
             this.color = color;

@@ -24,20 +24,20 @@ final class SubjectsDialog {
     static void show(final Context c, final Runnable changed) {
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, "Matières"));
-        TextView hint = Kit.text(c, "Pour les pastilles posées sur les pages, les points du calendrier et l'emploi du temps.",
+        body.addView(Kit.title(c, L.s("Matières", "Subjects")));
+        TextView hint = Kit.text(c, L.s("Pour les pastilles posées sur les pages, les points du calendrier et l'emploi du temps.", "Used for the tags on your pages, the calendar dots and the timetable."),
                 14, Ui.GREY, false);
         hint.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 10));
         body.addView(hint);
         final LinearLayout list = new LinearLayout(c);
         list.setOrientation(LinearLayout.VERTICAL);
         body.addView(list);
-        TextView add = Kit.button(c, "+ Ajouter une matière", true);
+        TextView add = Kit.button(c, L.s("+ Ajouter une matière", "+ Add a subject"), true);
         add.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
         add.setPadding(Kit.px(c, 22), Kit.px(c, 14), Kit.px(c, 22), Kit.px(c, 14));
         body.addView(add, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        TextView close = Kit.button(c, "Fermer", true);
+        TextView close = Kit.button(c, L.s("Fermer", "Close"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, null, close), 440);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +67,7 @@ final class SubjectsDialog {
                     TextView name = Kit.text(c, s.name, 16, Ui.INK, false);
                     name.setPadding(Kit.px(c, 14), 0, 0, 0);
                     row.addView(name, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-                    row.addView(Kit.text(c, "Modifier", 14, Ui.GREY, false));
+                    row.addView(Kit.text(c, L.s("Modifier", "Edit"), 14, Ui.GREY, false));
                     row.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -92,12 +92,12 @@ final class SubjectsDialog {
     static void edit(final Context c, final Settings.Subject s, final Runnable saved) {
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, s == null ? "Nouvelle matière" : "Modifier la matière"));
-        final EditText name = Kit.field(c, s == null ? "" : s.name, "Nom (ex. Maths)");
+        body.addView(Kit.title(c, s == null ? L.s("Nouvelle matière", "New subject") : L.s("Modifier la matière", "Edit subject")));
+        final EditText name = Kit.field(c, s == null ? "" : s.name, L.s("Nom (ex. Maths)", "Name (e.g. Maths)"));
         LinearLayout.LayoutParams nlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         nlp.setMargins(Kit.px(c, 22), Kit.px(c, 6), Kit.px(c, 22), Kit.px(c, 14));
         body.addView(name, nlp);
-        TextView lbl = Kit.text(c, "Couleur", 14, Ui.GREY, true);
+        TextView lbl = Kit.text(c, L.s("Couleur", "Colour"), 14, Ui.GREY, true);
         lbl.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 8));
         body.addView(lbl);
         final int[] color = {s != null ? s.color : Settings.PALETTE[Settings.subjects.size() % Settings.PALETTE.length]};
@@ -119,10 +119,10 @@ final class SubjectsDialog {
         }
         body.addView(pal);
 
-        TextView del = s == null ? null : Kit.button(c, "Supprimer", false);
+        TextView del = s == null ? null : Kit.button(c, L.s("Supprimer", "Delete"), false);
         if (del != null) del.setTextColor(Ui.DANGER);
-        TextView cancel = Kit.button(c, "Annuler", false);
-        TextView ok = Kit.button(c, "Enregistrer", true);
+        TextView cancel = Kit.button(c, L.s("Annuler", "Cancel"), false);
+        TextView ok = Kit.button(c, L.s("Enregistrer", "Save"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, del, cancel, ok), 420);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +135,7 @@ final class SubjectsDialog {
             public void onClick(View v) {
                 String n = name.getText().toString().trim();
                 if (n.isEmpty()) {
-                    Toast.makeText(c, "Donne un nom à la matière.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, L.s("Donne un nom à la matière.", "Give the subject a name."), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ArrayList<Settings.Subject> l = new ArrayList<>(Settings.subjects);
@@ -156,10 +156,10 @@ final class SubjectsDialog {
                 @Override
                 public void onClick(View v) {
                     new AlertDialog.Builder(c)
-                            .setTitle("Supprimer « " + s.name + " » ?")
-                            .setMessage("Les pastilles déjà posées sur tes pages restent (en gris) et ses cours sont retirés de l'emploi du temps.")
-                            .setNegativeButton("Garder", null)
-                            .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                            .setTitle(L.f("Supprimer « %s » ?", "Delete “%s”?", s.name))
+                            .setMessage(L.s("Les pastilles déjà posées sur tes pages restent (en gris) et ses cours sont retirés de l'emploi du temps.", "Tags already placed on your pages stay (in grey) and its classes are removed from the timetable."))
+                            .setNegativeButton(L.s("Garder", "Keep"), null)
+                            .setPositiveButton(L.s("Supprimer", "Delete"), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface di, int which) {
                                     ArrayList<Settings.Subject> l = new ArrayList<>();
@@ -205,7 +205,7 @@ final class SubjectsDialog {
             this.color = color;
             this.dp = Ui.dp(c, 1);
             setClickable(true);
-            setContentDescription("Couleur");
+            setContentDescription(L.s("Couleur", "Colour"));
         }
 
         @Override

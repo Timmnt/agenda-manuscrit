@@ -24,7 +24,7 @@ final class ScheduleDialog {
     private ScheduleDialog() {}
 
     static String hm(int min) {
-        return String.format(Locale.FRANCE, "%dh%02d", min / 60, min % 60);
+        return String.format(Locale.ROOT, L.en ? "%d:%02d" : "%dh%02d", min / 60, min % 60);
     }
 
     /** L'activité demande l'autorisation de lire l'agenda (fenêtre d'Android). */
@@ -35,8 +35,8 @@ final class ScheduleDialog {
     static void show(final Context c, final Runnable changed, final CalendarAsker asker) {
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, "Emploi du temps"));
-        TextView hint = Kit.text(c, "Tes cours s'affichent discrètement en haut de chaque jour de l'agenda.", 14, Ui.GREY, false);
+        body.addView(Kit.title(c, L.s("Emploi du temps", "Timetable")));
+        TextView hint = Kit.text(c, L.s("Tes cours s'affichent discrètement en haut de chaque jour de l'agenda.", "Your classes appear discreetly at the top of each day in the planner."), 14, Ui.GREY, false);
         hint.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 12));
         body.addView(hint);
 
@@ -50,7 +50,7 @@ final class ScheduleDialog {
         final Runnable[] fill = new Runnable[1];
         for (int i = 0; i < 7; i++) {
             final int k = i;
-            tab[i] = Kit.text(c, Days.DAY_SHORT[i].replace(".", ""), 14, Ui.INK, true);
+            tab[i] = Kit.text(c, Days.dayShort(i).replace(".", ""), 14, Ui.INK, true);
             tab[i].setGravity(Gravity.CENTER);
             tab[i].setPadding(0, Kit.px(c, 8), 0, Kit.px(c, 8));
             tab[i].setClickable(true);
@@ -68,7 +68,7 @@ final class ScheduleDialog {
         body.addView(tabs);
         body.addView(list);
 
-        TextView add = Kit.button(c, "+ Ajouter un cours", true);
+        TextView add = Kit.button(c, L.s("+ Ajouter un cours", "+ Add a class"), true);
         add.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
         add.setPadding(Kit.px(c, 22), Kit.px(c, 14), Kit.px(c, 22), Kit.px(c, 14));
         body.addView(add, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -78,7 +78,7 @@ final class ScheduleDialog {
         swRow.setOrientation(LinearLayout.HORIZONTAL);
         swRow.setGravity(Gravity.CENTER_VERTICAL);
         swRow.setPadding(Kit.px(c, 22), Kit.px(c, 12), Kit.px(c, 18), Kit.px(c, 12));
-        swRow.addView(Kit.text(c, "Afficher les cours sur les pages", 16, Ui.INK, false),
+        swRow.addView(Kit.text(c, L.s("Afficher les cours sur les pages", "Show classes on the pages"), 16, Ui.INK, false),
                 new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
         final Switch sw = new Switch(c);
         sw.setChecked(Settings.showSchedule);
@@ -95,7 +95,7 @@ final class ScheduleDialog {
         body.addView(Kit.divider(c));
         addGoogleSection(c, body, changed, asker);
 
-        TextView close = Kit.button(c, "Fermer", true);
+        TextView close = Kit.button(c, L.s("Fermer", "Close"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, null, close), 480);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +121,7 @@ final class ScheduleDialog {
                 list.removeAllViews();
                 List<Settings.Slot> slots = Settings.slotsFor(day[0]);
                 if (slots.isEmpty()) {
-                    TextView none = Kit.text(c, "Aucun cours ce jour-là.", 15, Ui.LIGHT_GREY, false);
+                    TextView none = Kit.text(c, L.s("Aucun cours ce jour-là.", "No classes that day."), 15, Ui.LIGHT_GREY, false);
                     none.setPadding(Kit.px(c, 22), Kit.px(c, 12), Kit.px(c, 22), Kit.px(c, 6));
                     list.addView(none);
                 }
@@ -170,8 +170,8 @@ final class ScheduleDialog {
         gRow.setPadding(Kit.px(c, 22), Kit.px(c, 14), Kit.px(c, 18), Kit.px(c, 4));
         LinearLayout texts = new LinearLayout(c);
         texts.setOrientation(LinearLayout.VERTICAL);
-        texts.addView(Kit.text(c, "Google Agenda", 16, Ui.INK, true));
-        TextView sub = Kit.text(c, "Tes événements s'ajoutent aux pastilles, à côté des cours. Lecture seule : rien n'est modifié dans ton agenda.",
+        texts.addView(Kit.text(c, L.s("Google Agenda", "Google Calendar"), 16, Ui.INK, true));
+        TextView sub = Kit.text(c, L.s("Tes événements s'ajoutent aux pastilles, à côté des cours. Lecture seule : rien n'est modifié dans ton agenda.", "Your events appear at the top of each day, next to your classes. Read-only: nothing in your calendar is changed."),
                 13, Ui.GREY, false);
         sub.setPadding(0, Kit.px(c, 3), Kit.px(c, 12), 0);
         texts.addView(sub);
@@ -186,7 +186,7 @@ final class ScheduleDialog {
         calRow.setGravity(Gravity.CENTER_VERTICAL);
         calRow.setPadding(Kit.px(c, 22), Kit.px(c, 12), Kit.px(c, 18), Kit.px(c, 14));
         Kit.ripple(calRow, false);
-        calRow.addView(Kit.text(c, "Agendas affichés", 15, Ui.INK, false),
+        calRow.addView(Kit.text(c, L.s("Agendas affichés", "Calendars shown"), 15, Ui.INK, false),
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         final TextView calValue = Kit.text(c, "", 15, Ui.ACCENT, true);
         calValue.setGravity(Gravity.END);
@@ -264,24 +264,33 @@ final class ScheduleDialog {
     private static String summary(List<CalendarSource.Cal> cals) {
         ArrayList<String> names = new ArrayList<>();
         for (CalendarSource.Cal cal : cals) if (CalendarSource.isSelected(cal)) names.add(cal.name);
-        if (cals.isEmpty()) return "Aucun sur la tablette";
-        if (names.isEmpty()) return "Aucun";
+        if (cals.isEmpty()) return L.s("Aucun sur la tablette", "None on the tablet");
+        if (names.isEmpty()) return L.s("Aucun", "None");
         if (names.size() <= 2) return android.text.TextUtils.join(", ", names);
-        return names.size() + " agendas";
+        return L.f("%d agendas", "%d calendars", names.size());
     }
 
-    private static final String SYNC_HELP = "Un agenda manque ou reste vide ? Dans l'appli Google Agenda : menu ☰ → Paramètres → "
-            + "touche l'agenda → active « Synchroniser ». Ton compte : Paramètres d'Android → Comptes → Google → "
-            + "Synchronisation du compte → Agenda.";
+    private static String syncHelp() {
+        return L.s("Un agenda manque ou reste vide ? Dans l'appli Google Agenda : menu ☰ → Paramètres → "
+                        + "touche l'agenda → active « Synchroniser ». Ton compte : Paramètres d'Android → Comptes → Google → "
+                        + "Synchronisation du compte → Agenda.",
+                "A calendar is missing or empty? In the Google Calendar app: menu ☰ → Settings → tap the calendar → "
+                        + "turn on “Sync”. Your account: Android Settings → Accounts → Google → Account sync → Calendar.");
+    }
 
     private static void showNoCalendar(Context c) {
         new android.app.AlertDialog.Builder(c)
-                .setTitle("Aucun agenda sur la tablette")
-                .setMessage("L'app lit l'agenda synchronisé sur la tablette, sans connexion à part.\n\n"
-                        + "1. Paramètres d'Android → Comptes → ajoute ton compte Google (s'il n'y est pas).\n"
-                        + "2. Dans ce compte, active la synchronisation « Agenda ».\n"
-                        + "3. Installe l'appli Google Agenda si besoin, puis attends quelques instants : "
-                        + "tes événements apparaîtront tout seuls.")
+                .setTitle(L.s("Aucun agenda sur la tablette", "No calendar on the tablet"))
+                .setMessage(L.s("L'app lit l'agenda synchronisé sur la tablette, sans connexion à part.\n\n"
+                                + "1. Paramètres d'Android → Comptes → ajoute ton compte Google (s'il n'y est pas).\n"
+                                + "2. Dans ce compte, active la synchronisation « Agenda ».\n"
+                                + "3. Installe l'appli Google Agenda si besoin, puis attends quelques instants : "
+                                + "tes événements apparaîtront tout seuls.",
+                        "The app reads the calendar synced on the tablet, with no separate sign-in.\n\n"
+                                + "1. Android Settings → Accounts → add your Google account (if it isn't there).\n"
+                                + "2. In that account, turn on “Calendar” sync.\n"
+                                + "3. Install the Google Calendar app if needed, then wait a moment: "
+                                + "your events will show up on their own."))
                 .setPositiveButton("OK", null)
                 .show();
     }
@@ -291,11 +300,13 @@ final class ScheduleDialog {
         final List<CalendarSource.Cal> cals = CalendarSource.calendars(c);
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, "Agendas à afficher"));
+        body.addView(Kit.title(c, L.s("Agendas à afficher", "Calendars to show")));
         final List<CheckBox> boxes = new ArrayList<>();
         if (cals.isEmpty()) {
-            TextView none = Kit.text(c, "Aucun agenda trouvé sur la tablette. Ajoute ton compte Google dans les "
-                    + "Paramètres d'Android (Comptes), puis active la synchronisation de l'agenda.", 15, Ui.GREY, false);
+            TextView none = Kit.text(c, L.s("Aucun agenda trouvé sur la tablette. Ajoute ton compte Google dans les "
+                    + "Paramètres d'Android (Comptes), puis active la synchronisation de l'agenda.",
+                    "No calendar found on the tablet. Add your Google account in Android Settings (Accounts), "
+                    + "then turn on calendar sync."), 15, Ui.GREY, false);
             none.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 12));
             body.addView(none);
         }
@@ -303,7 +314,7 @@ final class ScheduleDialog {
         for (final CalendarSource.Cal cal : cals) {
             if (!cal.account.equals(account)) {
                 account = cal.account;
-                TextView h = Kit.text(c, account.isEmpty() ? "Sur la tablette" : account, 13, Ui.GREY, true);
+                TextView h = Kit.text(c, account.isEmpty() ? L.s("Sur la tablette", "On the tablet") : account, 13, Ui.GREY, true);
                 h.setPadding(Kit.px(c, 22), Kit.px(c, 10), Kit.px(c, 22), Kit.px(c, 4));
                 h.setSingleLine(true);
                 h.setEllipsize(android.text.TextUtils.TruncateAt.END);
@@ -322,7 +333,7 @@ final class ScheduleDialog {
             nm.setSingleLine(true);
             nm.setEllipsize(android.text.TextUtils.TruncateAt.END);
             texts.addView(nm);
-            String note = !cal.synced ? "Pas synchronisé sur la tablette" : cal.noise() ? "Anniversaires / météo" : null;
+            String note = !cal.synced ? L.s("Pas synchronisé sur la tablette", "Not synced on the tablet") : cal.noise() ? L.s("Anniversaires / météo", "Birthdays / weather") : null;
             if (note != null) texts.addView(Kit.text(c, note, 12, Ui.LIGHT_GREY, false));
             row.addView(texts, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
             final CheckBox cb = new CheckBox(c);
@@ -337,11 +348,11 @@ final class ScheduleDialog {
             boxes.add(cb);
             body.addView(row);
         }
-        TextView help = Kit.text(c, SYNC_HELP, 13, Ui.GREY, false);
+        TextView help = Kit.text(c, syncHelp(), 13, Ui.GREY, false);
         help.setPadding(Kit.px(c, 22), Kit.px(c, 12), Kit.px(c, 22), Kit.px(c, 8));
         body.addView(help);
 
-        TextView cancel = Kit.button(c, "Annuler", false);
+        TextView cancel = Kit.button(c, L.s("Annuler", "Cancel"), false);
         TextView ok = Kit.button(c, "OK", true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, null, cancel, ok), 460);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -376,7 +387,7 @@ final class ScheduleDialog {
     /** Ajout (slot == null) ou modification d'un cours. */
     static void editSlot(final Context c, final Settings.Slot slot, final int dow, final Runnable saved) {
         if (Settings.subjects.isEmpty()) {
-            Toast.makeText(c, "Ajoute d'abord une matière (menu ⋮ → Matières).", Toast.LENGTH_LONG).show();
+            Toast.makeText(c, L.s("Ajoute d'abord une matière (menu ⋮ → Matières).", "Add a subject first (menu ⋮ → Subjects)."), Toast.LENGTH_LONG).show();
             return;
         }
         int defStart = 8 * 60;
@@ -388,9 +399,9 @@ final class ScheduleDialog {
 
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, (slot == null ? "Nouveau cours · " : "Cours · ") + Days.DAY_NAMES[dow]));
+        body.addView(Kit.title(c, (slot == null ? L.s("Nouveau cours · ", "New class · ") : L.s("Cours · ", "Class · ")) + Days.dayName(dow)));
 
-        TextView l1 = Kit.text(c, "Matière", 14, Ui.GREY, true);
+        TextView l1 = Kit.text(c, L.s("Matière", "Subject"), 14, Ui.GREY, true);
         l1.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 8));
         body.addView(l1);
         final Kit.Flow chips = new Kit.Flow(c, Kit.px(c, 8), Kit.px(c, 8));
@@ -426,15 +437,15 @@ final class ScheduleDialog {
         styleChips.run();
         body.addView(chips);
 
-        TextView l2 = Kit.text(c, "Horaires", 14, Ui.GREY, true);
+        TextView l2 = Kit.text(c, L.s("Horaires", "Time"), 14, Ui.GREY, true);
         l2.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 8));
         body.addView(l2);
         LinearLayout times = new LinearLayout(c);
         times.setOrientation(LinearLayout.HORIZONTAL);
         times.setGravity(Gravity.CENTER_VERTICAL);
         times.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 14));
-        final TextView from = Kit.pill(c, "De " + hm(start[0]), false);
-        final TextView to = Kit.pill(c, "à " + hm(end[0]), false);
+        final TextView from = Kit.pill(c, L.s("De ", "From ") + hm(start[0]), false);
+        final TextView to = Kit.pill(c, L.s("à ", "to ") + hm(end[0]), false);
         times.addView(from);
         View gap = new View(c);
         times.addView(gap, new LinearLayout.LayoutParams(Kit.px(c, 10), 1));
@@ -449,8 +460,8 @@ final class ScheduleDialog {
                         int dur = end[0] - start[0];
                         start[0] = h * 60 + m;
                         end[0] = Math.min(start[0] + Math.max(dur, 30), 23 * 60 + 59);
-                        from.setText("De " + hm(start[0]));
-                        to.setText("à " + hm(end[0]));
+                        from.setText(L.s("De ", "From ") + hm(start[0]));
+                        to.setText(L.s("à ", "to ") + hm(end[0]));
                     }
                 }, start[0] / 60, start[0] % 60, true).show();
             }
@@ -462,24 +473,24 @@ final class ScheduleDialog {
                     @Override
                     public void onTimeSet(TimePicker tp, int h, int m) {
                         end[0] = h * 60 + m;
-                        to.setText("à " + hm(end[0]));
+                        to.setText(L.s("à ", "to ") + hm(end[0]));
                     }
                 }, end[0] / 60, end[0] % 60, true).show();
             }
         });
 
-        TextView l3 = Kit.text(c, "Salle (facultatif)", 14, Ui.GREY, true);
+        TextView l3 = Kit.text(c, L.s("Salle (facultatif)", "Room (optional)"), 14, Ui.GREY, true);
         l3.setPadding(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 8));
         body.addView(l3);
-        final EditText room = Kit.field(c, slot != null ? slot.room : "", "ex. B204");
+        final EditText room = Kit.field(c, slot != null ? slot.room : "", L.s("ex. B204", "e.g. B204"));
         LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.setMargins(Kit.px(c, 22), 0, Kit.px(c, 22), Kit.px(c, 12));
         body.addView(room, rlp);
 
-        TextView del = slot == null ? null : Kit.button(c, "Supprimer", false);
+        TextView del = slot == null ? null : Kit.button(c, L.s("Supprimer", "Delete"), false);
         if (del != null) del.setTextColor(Ui.DANGER);
-        TextView cancel = Kit.button(c, "Annuler", false);
-        TextView ok = Kit.button(c, slot == null ? "Ajouter" : "Enregistrer", true);
+        TextView cancel = Kit.button(c, L.s("Annuler", "Cancel"), false);
+        TextView ok = Kit.button(c, slot == null ? L.s("Ajouter", "Add") : L.s("Enregistrer", "Save"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, del, cancel, ok), 440);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -491,7 +502,7 @@ final class ScheduleDialog {
             @Override
             public void onClick(View v) {
                 if (end[0] <= start[0]) {
-                    Toast.makeText(c, "L'heure de fin doit être après le début.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, L.s("L'heure de fin doit être après le début.", "The end time must be after the start."), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ArrayList<Settings.Slot> l = new ArrayList<>();

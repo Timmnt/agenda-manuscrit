@@ -10,9 +10,10 @@ mkdir -p "$OUT"
 S=src/fr/agenda/manuscrit
 javac -nowarn -encoding UTF-8 -d "$OUT" \
   $(find tests/stubs tests/src -name '*.java') \
-  $S/Days.java $S/Settings.java $S/CalEvents.java $S/PageStore.java $S/Edit.java $S/Streaks.java \
+  $S/L.java $S/Days.java $S/Settings.java $S/CalEvents.java $S/PageStore.java $S/Edit.java $S/Streaks.java \
   $S/Item.java $S/Shapes.java $S/Page.java $S/Stroke.java $S/Obj.java $S/Geo.java
-for t in ModelTests StreakTests CalTests SettingsTests; do
+for t in ModelTests StreakTests CalTests SettingsTests LangTests; do
   java -cp "$OUT" fr.agenda.manuscrit.$t
 done
 java -cp "$OUT" fr.agenda.manuscrit.BoxBench "${1:-600}"
+python3 tools/check_i18n.py

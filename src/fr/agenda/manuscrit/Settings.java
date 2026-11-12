@@ -17,10 +17,44 @@ final class Settings {
     private Settings() {}
 
     static final int BG_LINED = 0, BG_SEYES = 1, BG_GRID = 2, BG_DOTS = 3, BG_BLANK = 4;
-    static final String[] BG_NAMES = {"Ligné", "Seyès (grands carreaux)", "Petits carreaux", "Pointillés", "Blanc"};
+    static final int BG_COUNT = 5;
+
+    /** Nom d'un fond de page, dans la langue de l'interface. */
+    static String bgName(int i) {
+        switch (i) {
+            case BG_SEYES: return L.s("Seyès (grands carreaux)", "Seyès (French ruled)");
+            case BG_GRID: return L.s("Petits carreaux", "Grid");
+            case BG_DOTS: return L.s("Pointillés", "Dots");
+            case BG_BLANK: return L.s("Blanc", "Blank");
+            default: return L.s("Ligné", "Lined");
+        }
+    }
+
+    static String[] bgNames() {
+        String[] a = new String[BG_COUNT];
+        for (int i = 0; i < a.length; i++) a[i] = bgName(i);
+        return a;
+    }
 
     static final int BTN_ERASER = 0, BTN_HIGHLIGHTER = 1, BTN_LASSO = 2, BTN_UNDO = 3, BTN_NONE = 4;
-    static final String[] BTN_NAMES = {"Gomme", "Surligneur", "Lasso", "Annuler", "Rien"};
+    static final int BTN_COUNT = 5;
+
+    /** Action du bouton du stylet, dans la langue de l'interface. */
+    static String btnName(int i) {
+        switch (i) {
+            case BTN_HIGHLIGHTER: return L.s("Surligneur", "Highlighter");
+            case BTN_LASSO: return L.s("Lasso", "Lasso");
+            case BTN_UNDO: return L.s("Annuler", "Undo");
+            case BTN_NONE: return L.s("Rien", "Nothing");
+            default: return L.s("Gomme", "Eraser");
+        }
+    }
+
+    static String[] btnNames() {
+        String[] a = new String[BTN_COUNT];
+        for (int i = 0; i < a.length; i++) a[i] = btnName(i);
+        return a;
+    }
 
     static final int[] PALETTE = {
             0xFF2B5FD0, 0xFF1E88E5, 0xFF0F8C8C, 0xFF16915A, 0xFF7CB342, 0xFFF2B300,
@@ -90,6 +124,8 @@ final class Settings {
     static volatile boolean google = false;
     /** Agendas choisis à la main ; null = choix automatique (agendas visibles, sans anniversaires ni météo). */
     static volatile long[] calendarIds = null;
+    /** Langue de l'interface : L.AUTO, L.FR ou L.EN. */
+    static volatile int lang = L.AUTO;
     /** Incrémenté à chaque changement : les pages et miniatures se redessinent. */
     static volatile int revision;
 
@@ -98,11 +134,15 @@ final class Settings {
     static synchronized void init(Context c) {
         if (prefs != null) return;
         prefs = c.getApplicationContext().getSharedPreferences("agenda", Context.MODE_PRIVATE);
-        bgAgenda = clamp(prefs.getInt("bgAgenda", BG_LINED), BG_NAMES.length);
-        bgVrac = clamp(prefs.getInt("bgVrac", BG_DOTS), BG_NAMES.length);
+        lang = clamp(prefs.getInt("lang", L.AUTO), 3);
+        L.apply(lang);
+        subjects = defaultSubjects(); // dans la langue de l'interface, tant qu'elles ne sont pas personnalisées
+        stamps = defaultStamps();
+        bgAgenda = clamp(prefs.getInt("bgAgenda", BG_LINED), BG_COUNT);
+        bgVrac = clamp(prefs.getInt("bgVrac", BG_DOTS), BG_COUNT);
         pageTurn = prefs.getBoolean("pageTurn", true);
         showSchedule = prefs.getBoolean("showSchedule", true);
-        stylusButton = clamp(prefs.getInt("stylusButton", BTN_ERASER), BTN_NAMES.length);
+        stylusButton = clamp(prefs.getInt("stylusButton", BTN_ERASER), BTN_COUNT);
         String subj = prefs.getString("subjects", null);
         if (subj != null) subjects = decodeSubjects(subj);
         String st = prefs.getString("stamps", null);
@@ -120,6 +160,24 @@ final class Settings {
 
     private static int clamp(int v, int n) {
         return v < 0 || v >= n ? 0 : v;
+    }
+
+    /** Change la langue : les matières et tampons pas encore personnalisés suivent la nouvelle langue. */
+    static void setLang(int choice) {
+        lang = choice;
+        L.apply(choice);
+        if (prefs != null) {
+            prefs.edit().putInt("lang", choice).apply();
+            if (!prefs.contains("subjects")) subjects = defaultSubjects();
+            if (!prefs.contains("stamps")) stamps = defaultStamps();
+        }
+        bump();
+    }
+
+    static String langName(int choice) {
+        if (choice == L.FR) return "Français";
+        if (choice == L.EN) return "English";
+        return L.s("Automatique", "Automatic");
     }
 
     static void bump() {
@@ -212,28 +270,30 @@ final class Settings {
     }
 
     /** 480 -> "8h", 615 -> "10h15". */
+    /** « 8h », « 10h10 » / « 8:00 », « 10:10 ». */
     static String fmtTime(int min) {
         int h = min / 60, m = min % 60;
+        if (L.en) return h + ":" + (m < 10 ? "0" : "") + m;
         return m == 0 ? h + "h" : h + "h" + (m < 10 ? "0" : "") + m;
     }
 
     static List<Subject> defaultSubjects() {
         ArrayList<Subject> l = new ArrayList<>();
-        l.add(new Subject(1, "Maths", 0xFF2B5FD0));
-        l.add(new Subject(2, "Physique", 0xFF7B3FC4));
-        l.add(new Subject(3, "Électronique", 0xFFE07B00));
-        l.add(new Subject(4, "Automatique", 0xFF0F8C8C));
-        l.add(new Subject(5, "Informatique", 0xFF16915A));
-        l.add(new Subject(6, "Anglais", 0xFFD62F3C));
-        l.add(new Subject(7, "Projet", 0xFFC2185B));
+        l.add(new Subject(1, L.s("Maths", "Maths"), 0xFF2B5FD0));
+        l.add(new Subject(2, L.s("Physique", "Physics"), 0xFF7B3FC4));
+        l.add(new Subject(3, L.s("Électronique", "Electronics"), 0xFFE07B00));
+        l.add(new Subject(4, L.s("Automatique", "Control"), 0xFF0F8C8C));
+        l.add(new Subject(5, L.s("Informatique", "Computing"), 0xFF16915A));
+        l.add(new Subject(6, L.s("Anglais", "English"), 0xFFD62F3C));
+        l.add(new Subject(7, L.s("Projet", "Project"), 0xFFC2185B));
         return Collections.unmodifiableList(l);
     }
 
     static List<Stamp> defaultStamps() {
         ArrayList<Stamp> l = new ArrayList<>();
-        l.add(new Stamp(1, "DS", 0xFFD62F3C, false));
-        l.add(new Stamp(2, "TP", 0xFF16915A, false));
-        l.add(new Stamp(3, "RENDU", 0xFFE07B00, false));
+        l.add(new Stamp(1, L.s("DS", "TEST"), 0xFFD62F3C, false));
+        l.add(new Stamp(2, L.s("TP", "LAB"), 0xFF16915A, false));
+        l.add(new Stamp(3, L.s("RENDU", "DUE"), 0xFFE07B00, false));
         l.add(new Stamp(4, "EXAM", 0xFF7B3FC4, false));
         l.add(new Stamp(5, "IMPORTANT", 0xFFD62F3C, true));
         return Collections.unmodifiableList(l);

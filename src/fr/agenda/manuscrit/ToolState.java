@@ -11,7 +11,9 @@ final class ToolState {
     /** Nombre de boutons de couleur ; les couleurs elles-mêmes sont réglables (Settings.penColors). */
     static final int PEN_COUNT = 4;
     static final float[] PEN_WIDTHS = {2.3f, 3.6f, 5.8f};
-    static final String[] PEN_WIDTH_NAMES = {"Fin", "Moyen", "Épais"};
+    static String widthName(int i) {
+        return i == 0 ? L.s("fin", "thin") : i == 1 ? L.s("moyen", "medium") : L.s("épais", "thick");
+    }
 
     static final int HIGHLIGHT_COLOR = 0x6EFFD21A;
     static final float HIGHLIGHT_WIDTH = 24f;

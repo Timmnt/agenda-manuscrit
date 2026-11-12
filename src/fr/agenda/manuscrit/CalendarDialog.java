@@ -71,14 +71,14 @@ final class CalendarDialog extends Dialog {
         nav.setOrientation(LinearLayout.HORIZONTAL);
         nav.setGravity(Gravity.CENTER_VERTICAL);
         nav.setPadding(px(10), px(6), px(10), 0);
-        ToolButton prev = new ToolButton(c, ToolButton.CHEV_L, "Mois précédent");
+        ToolButton prev = new ToolButton(c, ToolButton.CHEV_L, L.s("Mois précédent", "Previous month"));
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 shiftMonth(-1);
             }
         });
-        ToolButton next = new ToolButton(c, ToolButton.CHEV_R, "Mois suivant");
+        ToolButton next = new ToolButton(c, ToolButton.CHEV_R, L.s("Mois suivant", "Next month"));
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,14 +103,14 @@ final class CalendarDialog extends Dialog {
         foot.setOrientation(LinearLayout.HORIZONTAL);
         foot.setGravity(Gravity.CENTER_VERTICAL);
         foot.setPadding(px(12), px(4), px(12), px(12));
-        TextView todayBtn = button(c, "Aujourd'hui", false);
+        TextView todayBtn = button(c, L.s("Aujourd'hui", "Today"), false);
         todayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 select(Days.today(), true);
             }
         });
-        TextView cancel = button(c, "Annuler", false);
+        TextView cancel = button(c, L.s("Annuler", "Cancel"), false);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,7 +242,7 @@ final class CalendarDialog extends Dialog {
             text.setTypeface(regular);
             text.setTextSize(13 * dp);
             text.setColor(Ui.GREY);
-            for (int i = 0; i < 7; i++) c.drawText(Days.DAY_LETTER[i], cw * (i + 0.5f), rowH * 0.6f, text);
+            for (int i = 0; i < 7; i++) c.drawText(Days.dayLetter(i), cw * (i + 0.5f), rowH * 0.6f, text);
 
             float rad = Math.min(cw, rowH) * 0.43f;
             for (int d = 1; d <= dim; d++) {

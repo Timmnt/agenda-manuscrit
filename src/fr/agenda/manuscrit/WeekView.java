@@ -234,13 +234,13 @@ final class WeekView extends View implements PageStore.Listener {
             label.setTextSize(15 * dp);
             label.setColor(isToday ? Ui.ACCENT : (dow >= 5 ? Ui.WEEKEND : Ui.INK));
             float base = r.top + labelH * 0.66f;
-            String name = cellW > 150 * dp ? Days.DAY_NAMES[dow] : Days.DAY_SHORT[dow];
+            String name = cellW > 150 * dp ? Days.dayName(dow) : Days.dayShort(dow);
             c.drawText(name + " " + Days.dayNum(ymd[2]), r.left + 12 * dp, base, label);
             if (isToday && cellW > 190 * dp) {
                 label.setTextAlign(Paint.Align.RIGHT);
                 label.setTypeface(medium);
                 label.setTextSize(12 * dp);
-                c.drawText("aujourd'hui", r.right - 12 * dp, base, label);
+                c.drawText(L.s("aujourd'hui", "today"), r.right - 12 * dp, base, label);
             }
 
             float tx = (float) Math.floor(r.left + (cellW - thumbW) / 2f);
@@ -342,7 +342,7 @@ final class WeekView extends View implements PageStore.Listener {
         label.setTextSize(ts * 0.9f);
         label.setColor(Ui.GREY);
         for (int i = 0; i < 7; i++) {
-            c.drawText(Days.DAY_LETTER[i], gx + cw * (i + 0.5f), gy + rh * 0.62f, label);
+            c.drawText(Days.dayLetter(i), gx + cw * (i + 0.5f), gy + rh * 0.62f, label);
         }
 
         int weekRow = (int) ((ws - Days.weekStart(first)) / 7);

@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 2.6
+- **Interface en anglais ou en français** : menu ⋮ → *Langue · Language* (Automatique = langue de la tablette).
+  Menus, fenêtres, aide, messages, dates (« Monday, November 9, 2026 »), heures (8:00), en-têtes de page,
+  widget, ainsi que les tampons et matières par défaut tant qu'ils ne sont pas personnalisés.
+- Changement de langue immédiat, sans perdre la page affichée.
+- `tools/check_i18n.py` vérifie qu'aucun texte affiché n'est sans traduction (lancé par `tests/run.sh`).
+
 ## 2.5
 - **Tampons personnalisables** : créer, modifier, supprimer ses tampons (texte, couleur, contour ou plein),
   depuis le panneau Insérer (« + Nouveau », appui long pour modifier) ou le menu ⋮ → *Tampons et autocollants*.

@@ -20,10 +20,10 @@ final class StatsDialog {
     static void show(Context c, PageStore store) {
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.addView(Kit.title(c, "Statistiques"));
+        body.addView(Kit.title(c, L.s("Statistiques", "Statistics")));
         body.addView(new StatsView(c, store), new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, Kit.px(c, 430)));
-        TextView close = Kit.button(c, "Fermer", true);
+        TextView close = Kit.button(c, L.s("Fermer", "Close"), true);
         final Dialog d = Kit.sheet(c, body, Kit.footer(c, null, close), 560);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +72,7 @@ final class StatsDialog {
         }
 
         private static String jours(int n) {
-            return n + (n > 1 ? " jours" : " jour");
+            return L.n(n, "jour", "jours", "day", "days");
         }
 
         @Override
@@ -95,11 +95,11 @@ final class StatsDialog {
             text.setTypeface(regular);
             text.setTextSize(13 * sp);
             text.setColor(Ui.GREY);
-            c.drawText("d'affilée avec toutes les cases cochées", tx, 66 * dp, text);
+            c.drawText(L.s("d'affilée avec toutes les cases cochées", "in a row with every box checked"), tx, 66 * dp, text);
             text.setTextAlign(Paint.Align.RIGHT);
             text.setTypeface(medium);
             text.setTextSize(13 * sp);
-            c.drawText("Record", w - pad, 30 * dp, text);
+            c.drawText(L.s("Record", "Best"), w - pad, 30 * dp, text);
             text.setTypeface(bold);
             text.setTextSize(20 * sp);
             text.setColor(Ui.ACCENT);
@@ -136,8 +136,10 @@ final class StatsDialog {
             text.setTypeface(regular);
             text.setTextSize(14 * sp);
             text.setColor(Ui.GREY);
-            c.drawText(checked + (checked > 1 ? " cases cochées" : " case cochée") + " sur " + boxes
-                    + "  ·  " + jours(written) + " où tu as écrit", w / 2, navY + 38 * dp, text);
+            c.drawText(L.f("%d %s sur %d  ·  %s où tu as écrit", "%d of %d %s  ·  %s with writing",
+                    L.en ? new Object[]{checked, boxes, boxes == 1 ? "box checked" : "boxes checked", jours(written)}
+                            : new Object[]{checked, checked > 1 ? "cases cochées" : "case cochée", boxes, jours(written)}),
+                    w / 2, navY + 38 * dp, text);
 
             // graphique : une barre par jour (cochées en bleu, restantes en gris)
             float top = navY + 64 * dp, bottom = getHeight() - 52 * dp, left = pad, right = w - pad;
@@ -172,13 +174,13 @@ final class StatsDialog {
                 text.setTypeface(regular);
                 text.setTextSize(14 * sp);
                 text.setColor(Ui.LIGHT_GREY);
-                c.drawText("Aucune case à cocher ce mois-ci", w / 2, (top + bottom) / 2, text);
+                c.drawText(L.s("Aucune case à cocher ce mois-ci", "No check boxes this month"), w / 2, (top + bottom) / 2, text);
             }
             text.setTextSize(12.5f * sp);
             text.setColor(Ui.GREY);
             text.setTypeface(regular);
-            String legend = anyBox ? "Vert : tout coché ce jour-là · bleu : coché · gris : reste à faire"
-                    : "Astuce : dessine un petit carré à côté d'un devoir, il devient une case à cocher.";
+            String legend = anyBox ? L.s("Vert : tout coché ce jour-là · bleu : coché · gris : reste à faire", "Green: all checked that day · blue: checked · grey: still to do")
+                    : L.s("Astuce : dessine un petit carré à côté d'un devoir, il devient une case à cocher.", "Tip: draw a small square next to a task and it becomes a check box.");
             c.drawText(legend, w / 2, getHeight() - 14 * dp, text);
         }
 

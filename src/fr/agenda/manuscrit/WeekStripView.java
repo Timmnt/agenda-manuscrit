@@ -31,7 +31,7 @@ final class WeekStripView extends View {
         this.listener = listener;
         this.dp = Ui.dp(c, 1);
         text.setTextAlign(Paint.Align.CENTER);
-        setContentDescription("Jours de la semaine");
+        setContentDescription(L.s("Jours de la semaine", "Days of the week"));
     }
 
     /** @param span nombre de jours affichés (1 en portrait, 2 en paysage). */
@@ -67,7 +67,7 @@ final class WeekStripView extends View {
             text.setTextSize(10 * dp);
             text.setTypeface(regular);
             text.setColor(sel ? 0xDDFFFFFF : Ui.GREY);
-            c.drawText(Days.DAY_LETTER[i], cx, cy - rad * 0.28f, text);
+            c.drawText(Days.dayLetter(i), cx, cy - rad * 0.28f, text);
             text.setTextSize(14 * dp);
             text.setTypeface(sel || isToday ? bold : regular);
             text.setColor(sel ? 0xFFFFFFFF : (isToday ? Ui.ACCENT : Ui.INK));

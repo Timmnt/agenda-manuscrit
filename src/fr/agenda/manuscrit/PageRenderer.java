@@ -36,12 +36,27 @@ final class PageRenderer {
 
     /** Tampons d'avant la 2.5 (objets sans texte : le n° du tampon renvoie ici). */
     static final String[] STAMP_TEXT = {"DS", "TP", "RENDU", "EXAM", "IMPORTANT"};
+    static final String[] STAMP_TEXT_EN = {"TEST", "LAB", "DUE", "EXAM", "IMPORTANT"};
     static final int[] STAMP_COLOR = {0xFFD62F3C, 0xFF16915A, 0xFFE07B00, 0xFF7B3FC4, 0xFFD62F3C};
     /** Tampon : kind = 1 pour un tampon plein (texte blanc sur fond de couleur), 0 pour un contour. */
     static final int STAMP_OUTLINE = 0, STAMP_FILLED = 1;
     /** Autocollant emoji : kind = EMOJI, l'emoji est dans le texte de l'objet. */
     static final int EMOJI = -1;
-    static final String[] STICKER_NAMES = {"Étoile", "Cœur", "Éclair", "Soleil", "Sourire", "Idée", "Horloge", "Flamme"};
+    static final int STICKER_COUNT = 8;
+
+    /** Nom d'un autocollant dessiné (pour l'accessibilité). */
+    static String stickerName(int k) {
+        switch (k) {
+            case 0: return L.s("étoile", "star");
+            case 1: return L.s("cœur", "heart");
+            case 2: return L.s("éclair", "lightning");
+            case 3: return L.s("soleil", "sun");
+            case 4: return L.s("sourire", "smiley");
+            case 5: return L.s("idée", "idea");
+            case 6: return L.s("horloge", "clock");
+            default: return L.s("flamme", "flame");
+        }
+    }
 
     private final Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint line = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -102,7 +117,7 @@ final class PageRenderer {
         text.setTypeface(bold);
         text.setTextSize(66f);
         text.setColor(headColor);
-        c.drawText(Days.DAY_NAMES[dow], 60f, 98f, text);
+        c.drawText(Days.dayName(dow), 60f, 98f, text);
 
         text.setTypeface(regular);
         text.setTextSize(34f);
@@ -113,13 +128,13 @@ final class PageRenderer {
         text.setTypeface(medium);
         text.setTextSize(28f);
         text.setColor(Ui.PAPER_GREY);
-        c.drawText("Semaine " + Days.isoWeek(day), W - 60f, 96f, text);
+        c.drawText(L.s("Semaine ", "Week ") + Days.isoWeek(day), W - 60f, 96f, text);
 
         if (day == today + 1) {
             // demain : pastille claire, contour bleu
             text.setTypeface(bold);
             text.setTextSize(26f);
-            String s = "Demain";
+            String s = L.s("Demain", "Tomorrow");
             float tw = text.measureText(s);
             tmp.set(W - 60f - tw - 36f, 117f, W - 60f, 157f);
             fill.setColor(0xFFE8EFFC);
@@ -133,7 +148,7 @@ final class PageRenderer {
         if (isToday) {
             text.setTypeface(bold);
             text.setTextSize(26f);
-            String s = "Aujourd'hui";
+            String s = L.s("Aujourd'hui", "Today");
             float tw = text.measureText(s);
             tmp.set(W - 60f - tw - 36f, 116f, W - 60f, 158f);
             fill.setColor(Ui.PAPER_ACCENT);
@@ -225,17 +240,17 @@ final class PageRenderer {
         text.setTypeface(bold);
         text.setTextSize(58f);
         text.setColor(VRAC_ACCENT);
-        c.drawText("En vrac", 60f, 100f, text);
+        c.drawText(L.s("En vrac", "Notes"), 60f, 100f, text);
 
         text.setTypeface(regular);
         text.setTextSize(28f);
         text.setColor(Ui.PAPER_GREY);
-        c.drawText("Idées, choses à faire un jour, brouillon…", 62f, 148f, text);
+        c.drawText(L.s("Idées, choses à faire un jour, brouillon…", "Ideas, someday to-dos, rough notes…"), 62f, 148f, text);
 
         text.setTextAlign(Paint.Align.RIGHT);
         text.setTypeface(medium);
         text.setTextSize(28f);
-        c.drawText("Page " + Geo.vracIndex(key), W - 60f, 96f, text);
+        c.drawText(L.s("Page ", "Page ") + Geo.vracIndex(key), W - 60f, 96f, text);
 
         line.setColor(Ui.withAlpha(VRAC_ACCENT, 0x88));
         line.setStrokeWidth(2.6f);
@@ -495,7 +510,7 @@ final class PageRenderer {
         boolean filled;
         if (o.text.isEmpty()) { // tampon d'avant la 2.5
             int k = Math.max(0, Math.min(STAMP_TEXT.length - 1, o.kind));
-            label = STAMP_TEXT[k];
+            label = (L.en ? STAMP_TEXT_EN : STAMP_TEXT)[k];
             col = STAMP_COLOR[k];
             filled = k == 4;
         } else {

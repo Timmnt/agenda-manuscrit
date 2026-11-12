@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textes lus par Android lui-même (liste des widgets du lanceur) : ils suivent la langue de la tablette. -->
+<resources>
+    <string name="widget_desc">Tomorrow\'s planner page, to see what\'s left to prepare</string>
+    <string name="widget_label">Agenda · tomorrow</string>
+</resources>
